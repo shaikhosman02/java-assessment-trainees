@@ -1,6 +1,7 @@
 package com.sensor.processing;
 
 import com.sensor.data.SensorData;
+
 import java.util.*;
 import java.util.stream.Collectors;
 

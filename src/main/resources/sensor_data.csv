@@ -1,4 +1,4 @@
-date,sensor_type,value,unit,location_id,month
+    date,sensor_type,value,unit,location_id,month
 2024-01-11 00:00:00,pressure,1031.58,hPa,106.0,2024-01
 2023-11-01 00:00:00,pressure,990.08,hPa,109.0,2023-11
 2023-10-08 00:00:00,light,656.83,lux,102.0,2023-10

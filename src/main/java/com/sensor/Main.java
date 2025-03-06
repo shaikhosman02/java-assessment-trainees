@@ -36,7 +36,7 @@ public class Main {
 
         // Generate reports
         SensorReportGenerator reportGenerator = new SensorReportGenerator();
-        reportGenerator.generateMonthlyStatsReport(monthlyAverages, "monthly_stats.csv");
+        reportGenerator.generateMonthlyStatsReport(monthlyAverages, monthlyMax, monthlyMin, "monthly_stats.csv");
         reportGenerator.generateOutliersReport(outliers, "outliers.csv");
     }
 

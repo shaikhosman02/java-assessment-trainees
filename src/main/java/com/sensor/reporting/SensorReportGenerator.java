@@ -11,22 +11,36 @@ import java.util.Map;
 
 public class SensorReportGenerator {
 
-    public void generateMonthlyStatsReport(Map<String, Map<String, Double>> monthlyStats, String outputPath) {
+    public void generateMonthlyStatsReport(
+            Map<String, Map<String, Double>> monthlyAverages,
+            Map<String, Map<String, Double>> monthlyMax,
+            Map<String, Map<String, Double>> monthlyMin,
+            String outputPath) {
         try (FileWriter writer = new FileWriter(outputPath)) {
             writer.write(Constants.MONTHLY_STATS_HEADER);
-            writeMonthlyStatsToFile(writer, monthlyStats);
+            writeMonthlyStatsToFile(writer, monthlyAverages, monthlyMax, monthlyMin);
         } catch (IOException e) {
             ErrorHandler.handleError(Constants.ERR_CODE_PROCESSING_ERROR, "Error generating monthly stats report: " + e.getMessage());
         }
     }
 
-    private void writeMonthlyStatsToFile(FileWriter writer, Map<String, Map<String, Double>> monthlyStats) throws IOException {
-        for (Map.Entry<String, Map<String, Double>> entry : monthlyStats.entrySet()) {
+    private void writeMonthlyStatsToFile(
+            FileWriter writer,
+            Map<String, Map<String, Double>> monthlyAverages,
+            Map<String, Map<String, Double>> monthlyMax,
+            Map<String, Map<String, Double>> monthlyMin) throws IOException {
+        for (Map.Entry<String, Map<String, Double>> entry : monthlyAverages.entrySet()) {
             String sensorType = entry.getKey();
-            Map<String, Double> stats = entry.getValue();
+            Map<String, Double> averages = entry.getValue();
 
-            for (Map.Entry<String, Double> stat : stats.entrySet()) {
-                writer.write(String.format("%s,%s,%.2f\n", sensorType, stat.getKey(), stat.getValue()));
+            for (Map.Entry<String, Double> averageEntry : averages.entrySet()) {
+                String month = averageEntry.getKey();
+                double avgValue = averageEntry.getValue();
+                double maxValue = monthlyMax.get(sensorType).get(month);
+                double minValue = monthlyMin.get(sensorType).get(month);
+
+                writer.write(String.format("%s,%s,%.2f,%.2f,%.2f\n",
+                        sensorType, month, avgValue, maxValue, minValue));
             }
         }
     }
